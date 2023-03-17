@@ -1,14 +1,10 @@
 let mutations = {
-    auth_request(state) {
-        state.status = 'loading'
-    },
-    auth_success(state, { token, user }) {
-        state.status = 'success'
+    auth(state, { token, user }) {
         state.token = token
         state.user = user
     },
-    auth_error(state) {
-        state.status = 'error'
+    notification(state, {status, message}) {
+        state.notification = {status, message}
     },
     logout(state) {
         state.status = ''

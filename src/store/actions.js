@@ -1,106 +1,121 @@
-import Vue from 'vue'
 import httpClient from './../api/httpClient'
-import store from "./index"
 
 let actions = {
-    handleResponse({ commit }, json) {
-        let response = json.res;
-        if (response.data.status) {
-            let message = response.data.success
-            // Vue.prototype.$toast.success({
-            //     title: "Success",
-            //     message: message,
-            //     delay: 0
-            // });
-        } else {
-            let message = response.data.error ? response.data.error : response.data.errors
-            if (typeof message === 'string') {
-                // Vue.prototype.$toast.error({
-                //     title: "Error",
-                //     message: message,
-                //     delay: 0
-                // });
-            } else {
-                // for (let key in message) {
-                // if (message.hasOwnProperty(key)) {
-                // Vue.prototype.$toast.error({
-                //     title: "Error",
-                //     message: message[key][0],
-                //     delay: 0
-                // });
-                // }
-                // }
-            }
-        }
-    },
     login({ commit, dispatch }, user) {
         return new Promise((resolve, reject) => {
-            commit('auth_request')
             httpClient.post('login', user)
                 .then(res => {
-                    dispatch('handleResponse', { res })
+                    resolve(res)
                     if (res.data.status) {
                         const token = res.data.token
                         const user = res.data.user
-                        commit('auth_success', { token, user })
-                        resolve(res)
+                        commit('auth', { token, user })
+                        commit('notification', { "status": "success", "message": "Login Successful" })
+                    } else {
+                        commit('notification', { "status": "error", "message": "An error occurred" })
                     }
                 }).catch(err => {
-                    commit('auth_error')
+                    commit('notification', { "status": "error", "message": "An error occurred" })
                     reject(err)
                 })
         })
     },
     logout({ commit }) {
+        commit('logout')
+        delete httpClient.defaults.headers.common['Authorization']
+    },
+    createBook({ commit }, { book, callback }) {
         return new Promise((resolve, reject) => {
-            commit('logout')
-            delete httpClient.defaults.headers.common['Authorization']
-            // Vue.prototype.$toast.success({
-            //     title: "Success",
-            //     message: "Logout successful",
-            //     delay: 0
-            // });
-            resolve()
+            httpClient.post('/books', book)
+                .then(res => {
+                    resolve(res)
+                    if (res.data.status) {
+                        commit('notification', { "status": "success", "message": "Added Successfully" })
+                        callback()
+                    } else {
+                        commit('notification', { "status": "error", "message": res.data.message })
+                    }
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
         })
     },
-    createBook({ commit, dispatch }, book) {
-        httpClient.post('/books', book)
-            .then(res => {
-                dispatch('handleResponse', { res });
-                return res.data
-            }).catch(err => {
-                console.log(err)
-            })
+    updateBook({ commit }, { id, book, callback }) {
+        return new Promise((resolve, reject) => {
+            httpClient.put(`/books/${id}`, book)
+                .then(res => {
+                    resolve(res)
+                    if (res.data.status) {
+                        commit('notification', { "status": "success", "message": "Updated Successfully" })
+                        callback()
+                    } else {
+                        commit('notification', { "status": "error", "message": res.data.message })
+                    }
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
+        })
     },
-    fetchBooks({ commit }, {current_page, per_page, callback}) {
-        httpClient.get(`/books?page=${current_page}&per_page=${per_page}`)
-            .then(res => {
-                res.data.status ?
-                    callback(res.data)
-                    : commit('error')
-            }).catch(err => {
-                console.log(err)
-            })
+    fetchBooks({ commit }, { current_page, per_page, callback }) {
+        return new Promise((resolve, reject) => {
+            httpClient.get(`/books?page=${current_page}&per_page=${per_page}`)
+                .then(res => {
+                    resolve(res)
+                    res.data.status ?
+                        callback(res.data)
+                        : commit('notification', { "status": "error", "message": res.data.message })
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
+        })
     },
-    searchBooks({ commit }, {query, current_page, per_page, callback}) {
-        httpClient.get(`/search-books?q=${query}&page=${current_page}&per_page=${per_page}`)
-            .then(res => {
-                res.data.status ?
-                    callback(res.data)
-                    : commit('error')
-            }).catch(err => {
-                console.log(err)
-            })
+    searchBooks({ commit }, { query, current_page, per_page, callback }) {
+        return new Promise((resolve, reject) => {
+            httpClient.get(`/search-books?q=${query}&page=${current_page}&per_page=${per_page}`)
+                .then(res => {
+                    resolve(res)
+                    res.data.status ?
+                        callback(res.data)
+                        : commit('notification', { "status": "error", "message": res.data.message })
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
+        })
     },
-    fetchBookDetails({ commit }, {id, callback}) {
-        httpClient.get(`/books/${id}`)
-            .then(res => {
-                res.data.status ?
-                    callback(res.data)
-                    : commit('error')
-            }).catch(err => {
-                console.log(err)
-            })
+    fetchBookDetails({ commit }, { id, callback }) {
+        return new Promise((resolve, reject) => {
+            httpClient.get(`/books/${id}`)
+                .then(res => {
+                    resolve(res)
+                    res.data.status ?
+                        callback(res.data)
+                        : commit('notification', { "status": "error", "message": res.data.message })
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
+        })
+    },
+    deleteBook({ commit }, { id, callback }) {
+        return new Promise((resolve, reject) => {
+            httpClient.delete(`/books/${id}`)
+                .then(res => {
+                    resolve(res)
+                    if (res.data.status) {
+                        commit('notification', { "status": "success", "message": "Deleted Successfully" })
+                        callback(id)
+                    } else {
+                        commit('notification', { "status": "error", "message": res.data.message })
+                    }
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    reject(err)
+                })
+        })
     },
 }
 

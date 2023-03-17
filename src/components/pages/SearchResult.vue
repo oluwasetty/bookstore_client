@@ -2,7 +2,7 @@
   <div>
     <div>
       <search :querystring="query" :searchBook="searchBook"></search>
-      <div class="text-center"><small>Found {{ count }} records</small></div>
+      <div v-if="books.length > 0" class="text-center"><small>Found {{ count }} records</small></div>
     </div>
     <div v-if="books.length > 0">
       <books :items="books"></books>

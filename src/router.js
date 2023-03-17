@@ -7,6 +7,10 @@ import AppFooter from "./components/layouts/AppFooter";
 import Home from "./components/pages/Home.vue";
 import SearchResult from "./components/pages/SearchResult.vue";
 import BookDetails from "./components/pages/BookDetails.vue";
+import Login from "./components/admin/Login.vue";
+import AddBook from "./components/admin/AddBook.vue";
+import EditBook from "./components/admin/EditBook.vue";
+import ListBooks from "./components/admin/ListBooks.vue";
 
 
   const routes = [
@@ -37,19 +41,58 @@ import BookDetails from "./components/pages/BookDetails.vue";
         footer: AppFooter
       }
     },
-    // {
-    //   path: "/login",
-    //   name: "login",
-    //   components: {
-    //     header: AppHeader,
-    //     default: Login,
-    //     footer: AppFooter
-    //   }
-    // }
+    {
+      path: "/edit-book/:id",
+      name: "edit_book",
+      components: {
+        header: AppHeader,
+        default: EditBook,
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/add-book",
+      name: "add_book",
+      components: {
+        header: AppHeader,
+        default: AddBook,
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/list-book",
+      name: "list_book",
+      components: {
+        header: AppHeader,
+        default: ListBooks,
+        footer: AppFooter
+      },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/login",
+      name: "login",
+      components: {
+        header: AppHeader,
+        default: Login,
+        footer: AppFooter
+      },
+      meta: {
+        hideAuth: true
+      }
+    }
   ]
 
   Vue.use(Router)
-NProgress.configure({ showSpinner: false });
+NProgress.configure({ showSpinner: true });
 
 const router = new Router({
   linkExactActiveClass: "active",
@@ -80,7 +123,7 @@ router.beforeResolve((to, from, next) => {
         }
         next('/login')
     }
-    else if (to.matched.some(record => record.meta.hideForAuth)) {
+    else if (to.matched.some(record => record.meta.hideAuth)) {
         if (!store.getters.isLoggedIn) {
             next()
             return

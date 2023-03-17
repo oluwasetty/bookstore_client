@@ -54,7 +54,9 @@ export default {
     border-bottom-right-radius: 10px;
 }
 
-#searchbox .input-group-prepend {
-    margin: 15px 10px 6px;
+#searchbox .input-group-text {
+    background-color: transparent;
+    border: none;
+    margin-top: 8px;
 }
 </style>

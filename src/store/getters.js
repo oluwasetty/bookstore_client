@@ -1,6 +1,6 @@
 let getters = {
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status,
+    notification: state => state.notification,
     token: state => state.token,
     user: state => state.user,
 }

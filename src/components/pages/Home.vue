@@ -14,7 +14,7 @@
         <div>
             <search :searchBook="searchBook"></search>
         </div>
-        <div class="text-center my-4">
+        <div v-if="books.length > 0" class="text-center my-4">
             <h3>Recently Added Books </h3>
         </div>
         <div>

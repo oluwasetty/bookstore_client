@@ -11,10 +11,8 @@
         <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
       </li>
     </ul>
-    <!-- <form class="form-inline my-2 my-lg-0"> -->
-      <!-- <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search"> -->
       <router-link id="search-btn" class="btn my-2 my-sm-0" to="/search">Search</router-link>
-    <!-- </form> -->
+      <router-link id="search-btn" class="btn my-2 my-sm-0" to="/login">Login</router-link>
   </div>
 </nav>
 </template>
@@ -39,6 +37,7 @@
     border-color: #f97141;
     color: #f97141;
     background-color: #1a1a1a;
+    margin: 5px;
   }
   #search-btn:hover{
     background-color: #f97141;
