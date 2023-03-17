@@ -82,6 +82,26 @@ let actions = {
                 console.log(err)
             })
     },
+    searchBooks({ commit }, {query, current_page, per_page, callback}) {
+        httpClient.get(`/search-books?q=${query}&page=${current_page}&per_page=${per_page}`)
+            .then(res => {
+                res.data.status ?
+                    callback(res.data)
+                    : commit('error')
+            }).catch(err => {
+                console.log(err)
+            })
+    },
+    fetchBookDetails({ commit }, {id, callback}) {
+        httpClient.get(`/books/${id}`)
+            .then(res => {
+                res.data.status ?
+                    callback(res.data)
+                    : commit('error')
+            }).catch(err => {
+                console.log(err)
+            })
+    },
 }
 
 export default actions

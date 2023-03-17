@@ -12,7 +12,7 @@
                             <div class="cover">
                                 <img :src="book.image">
                             </div>
-                            <div class="description">
+                            <div @click="redirectURL(book.id)" class="description">
                                 <p class="title">{{ book.title }}<br>
                                     <span class="author">{{ book.author }}</span><br>
                                     <small>{{ format_date(book.published) }}</small>
@@ -39,6 +39,9 @@ export default {
     methods: {
         format_date(date) {
             return moment(new Date(date)).format("MMM D, Y")
+        },
+        redirectURL(id){
+            this.$router.push({ name: 'product', params: { id: id } })
         }
     }
 }
@@ -148,5 +151,9 @@ animate it */
 /* remove button? */
 #large-th:target .book {
     height: 350px;
+}
+
+.description:hover{
+    cursor: pointer;
 }
 </style>

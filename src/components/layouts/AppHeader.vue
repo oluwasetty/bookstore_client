@@ -1,20 +1,20 @@
 <template>
   <nav class="navbar navbar-expand-lg">
-  <span class="navbar-brand" href="#">Bookstore</span>
+  <span class="navbar-brand">Bookstore</span>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"><i class="material-icons">menu</i></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search">
-      <button id="search-btn" class="btn my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <!-- <form class="form-inline my-2 my-lg-0"> -->
+      <!-- <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search"> -->
+      <router-link id="search-btn" class="btn my-2 my-sm-0" to="/search">Search</router-link>
+    <!-- </form> -->
   </div>
 </nav>
 </template>
@@ -25,6 +25,12 @@
   }
   .navbar a{
     color: #fff;
+  }
+  .navbar-toggler, .navbar-toggler:focus{
+    border-color: #f97141;
+  }
+  .navbar-toggler-icon{
+    color: #f97141;
   }
   #search:focus{
     outline:none

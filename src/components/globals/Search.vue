@@ -1,11 +1,11 @@
 <template>
-    <form v-on:submit="searchBook">
+    <form @submit.prevent="searchBook(query)">
         <div id="search-container" title="Search for the books that you want.">
             <div class="input-group mb-2 mr-sm-2" id="searchbox">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="material-icons">search</i></div>
                 </div>
-                <input type="text" class="form-control" id="inlineform" placeholder="Search">
+                <input v-model="query" type="text" class="form-control" id="inlineform" placeholder="Search">
             </div>
         </div>
     </form>
@@ -15,19 +15,18 @@
 export default {
     name: "search",
     props: {
-        query: {
+        querystring: {
             type: String,
             description: "Query string"
+        },
+        searchBook: {
+            type: Function,
+            description: "Search book"
         }
     },
     data() {
         return {
-            // query: "",
-        }
-    },
-    methods: {
-        searchBook(query) {
-            this.sliding = true
+            query: this.$props.querystring,
         }
     }
 }

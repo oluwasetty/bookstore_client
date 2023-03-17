@@ -6,6 +6,7 @@ import AppHeader from "./components/layouts/AppHeader";
 import AppFooter from "./components/layouts/AppFooter";
 import Home from "./components/pages/Home.vue";
 import SearchResult from "./components/pages/SearchResult.vue";
+import BookDetails from "./components/pages/BookDetails.vue";
 
 
   const routes = [
@@ -24,6 +25,15 @@ import SearchResult from "./components/pages/SearchResult.vue";
       components: {
         header: AppHeader,
         default: SearchResult,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/product/:id",
+      name: "product",
+      components: {
+        header: AppHeader,
+        default: BookDetails,
         footer: AppFooter
       }
     },
