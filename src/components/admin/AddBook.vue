@@ -40,10 +40,12 @@
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
     methods: {
+        ...mapActions(['createBook']),
         saveBook() {
-            this.$store.dispatch("createBook", { book: this.book, callback: this.onSaved });
+            this.createBook({ book: this.book, callback: this.onSaved });
         },
         onSaved() {
             this.book = {

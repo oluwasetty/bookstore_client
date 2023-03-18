@@ -8,11 +8,11 @@
             <div id="list-th">
                 <div class="row">
                     <div v-for="(book, i) in items" :key="i" class="col-xl-3 col-lg-4 col-md-6 mt-4">
-                        <div class="book read">
+                        <div @click="redirectURL(book.id)" class="book read">
                             <div class="cover">
                                 <img :src="book.image">
                             </div>
-                            <div @click="redirectURL(book.id)" class="description">
+                            <div class="description">
                                 <p class="title">{{ book.title }}<br>
                                     <span class="author">{{ book.author }}</span><br>
                                     <small>{{ format_date(book.published) }}</small>
@@ -153,7 +153,7 @@ animate it */
     height: 350px;
 }
 
-.description:hover{
+.book:hover{
     cursor: pointer;
 }
 </style>

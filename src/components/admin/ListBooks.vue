@@ -28,22 +28,24 @@
                     <td>{{ format_date(book.published) }}</td>
                     <td>
                         <router-link class="text-info" :to="`/edit-book/${book.id}`">Edit</router-link>&nbsp;|
-                        <a @click.prevent="deleteBook(book.id)" class="text-danger" href="!#">Delete</a>
+                        <a @click.prevent="deleteOnebook(book.id)" class="text-danger" href="!#">Delete</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <pagination :links="links" :fetchBooks="fetchBooks" :current_page="current_page"></pagination>
+        <pagination :links="links" :fetchBooks="fetchPagedBooks" :current_page="current_page"></pagination>
     </div>
 </template>
 <script>
 const Swal = require('sweetalert2')
 import moment from "moment";
+import { mapActions } from 'vuex';
 export default {
     mounted() {
-        this.$store.dispatch("fetchBooks", { current_page: 1, per_page: this.per_page, callback: this.loadBooks });
+        this.fetchBooks({ current_page: 1, per_page: this.per_page, callback: this.loadBooks });
     },
     methods: {
+        ...mapActions(['fetchBooks','deleteBook']),
         loadBooks(res) {
             this.books = res.data,
                 this.count = res.meta.total,
@@ -53,10 +55,10 @@ export default {
         format_date(date) {
             return moment(new Date(date)).format("MMM D, Y")
         },
-        fetchBooks(current_page) {
-            this.$store.dispatch("fetchBooks", { current_page: current_page, per_page: this.per_page, callback: this.loadBooks });
+        fetchPagedBooks(current_page) {
+            this.fetchBooks({ current_page: current_page, per_page: this.per_page, callback: this.loadBooks });
         },
-        deleteBook(id) {
+        deleteOnebook(id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -67,7 +69,7 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$store.dispatch("deleteBook", { id, callback: this.reIndexBooks })
+                    this.deleteBook({ id, callback: this.reIndexBooks })
                     Swal.fire(
                         'Deleted!',
                         'Your file has been deleted.',

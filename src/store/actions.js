@@ -1,28 +1,43 @@
 import httpClient from './../api/httpClient'
 
 let actions = {
-    login({ commit, dispatch }, user) {
+    login({ commit, dispatch }, {user, callback }) {
         return new Promise((resolve, reject) => {
             httpClient.post('login', user)
                 .then(res => {
                     resolve(res)
                     if (res.data.status) {
-                        const token = res.data.token
-                        const user = res.data.user
+                        const token = res.data.data.authorisation.token
+                        const user = res.data.data.user
                         commit('auth', { token, user })
-                        commit('notification', { "status": "success", "message": "Login Successful" })
+                        commit('notification', { "status": "success", "message": res.data.message })
+                        callback()
                     } else {
-                        commit('notification', { "status": "error", "message": "An error occurred" })
+                        commit('notification', { "status": "error", "message": res.data.message })
                     }
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
     },
     logout({ commit }) {
-        commit('logout')
-        delete httpClient.defaults.headers.common['Authorization']
+        return new Promise((resolve, reject) => {
+            httpClient.post('/logout')
+                .then(res => {
+                    resolve(res)
+                    if (res.data.status) {
+                        commit('logout')
+                        delete httpClient.defaults.headers.common['Authorization']
+                        commit('notification', { "status": "success", "message": res.data.message })
+                    } else {
+                        commit('notification', { "status": "error", "message": res.data.message })
+                    }
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
+                    reject(err)
+                })
+        })
     },
     createBook({ commit }, { book, callback }) {
         return new Promise((resolve, reject) => {
@@ -30,13 +45,13 @@ let actions = {
                 .then(res => {
                     resolve(res)
                     if (res.data.status) {
-                        commit('notification', { "status": "success", "message": "Added Successfully" })
+                        commit('notification', { "status": "success", "message": res.data.message })
                         callback()
                     } else {
                         commit('notification', { "status": "error", "message": res.data.message })
                     }
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
@@ -47,13 +62,13 @@ let actions = {
                 .then(res => {
                     resolve(res)
                     if (res.data.status) {
-                        commit('notification', { "status": "success", "message": "Updated Successfully" })
+                        commit('notification', { "status": "success", "message": res.data.message })
                         callback()
                     } else {
                         commit('notification', { "status": "error", "message": res.data.message })
                     }
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
@@ -67,7 +82,7 @@ let actions = {
                         callback(res.data)
                         : commit('notification', { "status": "error", "message": res.data.message })
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
@@ -81,7 +96,7 @@ let actions = {
                         callback(res.data)
                         : commit('notification', { "status": "error", "message": res.data.message })
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
@@ -95,7 +110,7 @@ let actions = {
                         callback(res.data)
                         : commit('notification', { "status": "error", "message": res.data.message })
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })
@@ -106,13 +121,13 @@ let actions = {
                 .then(res => {
                     resolve(res)
                     if (res.data.status) {
-                        commit('notification', { "status": "success", "message": "Deleted Successfully" })
+                        commit('notification', { "status": "success", "message": res.data.message })
                         callback(id)
                     } else {
                         commit('notification', { "status": "error", "message": res.data.message })
                     }
                 }).catch(err => {
-                    commit('notification', { "status": "error", "message": "An error occurred" })
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
                     reject(err)
                 })
         })

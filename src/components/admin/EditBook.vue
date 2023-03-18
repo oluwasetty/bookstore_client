@@ -41,25 +41,27 @@
 </template>
 <script>
 import moment from "moment";
+import { mapActions } from 'vuex';
 export default {
     mounted() {
       this.book_id = this.$route.params.id
         this.$store.dispatch("fetchBookDetails", { id: this.book_id, callback: this.loadBook });
     },
     methods: {
+        ...mapActions(['updateBook']),
         saveBook() {
-            this.$store.dispatch("updateBook", { id: this.book_id, book: this.book, callback: this.onSaved });
+            this.updateBook({ id: this.book_id, book: this.book, callback: this.onSaved });
         },
         onSaved() {
-            this.book = {
-                title: "",
-                author: "",
-                isbn: "",
-                genre: "",
-                publisher: "",
-                published: "",
-                description: ""
-            }
+            // this.book = {
+            //     title: "",
+            //     author: "",
+            //     isbn: "",
+            //     genre: "",
+            //     publisher: "",
+            //     published: "",
+            //     description: ""
+            // }
         },
         loadBook(res) {
             this.book = {...res.data, published: moment(new Date(res.data.published)).format("YYYY-MM-DD")}

@@ -1,9 +1,6 @@
-// import Vue from 'vue'
 import axios from 'axios';
-// import VueSweetalert from "vue-sweetalert2";
 import NProgress from 'nprogress'
 import store from './../store/index'
-// Vue.use(VueSweetalert);
 
 /** Default config for axios instance */
 let config = {

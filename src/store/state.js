@@ -1,7 +1,6 @@
 let state = {
-    status: '',
-    token: '',
-    notification: '',
+    token: null,
+    notification: {},
     user: {}
 }
 

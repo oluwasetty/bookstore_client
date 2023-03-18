@@ -7,8 +7,7 @@ let mutations = {
         state.notification = {status, message}
     },
     logout(state) {
-        state.status = ''
-        state.token = ''
+        state.token = null
         state.user = {}
     }
 }

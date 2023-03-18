@@ -24,11 +24,13 @@
 </template>
   
 <script>
+import { mapActions } from 'vuex';
 export default {
     mounted() {
-        this.$store.dispatch("fetchBooks", { per_page: this.per_page, current_page: this.current_page, callback: this.loadBooks });
+        this.fetchBooks({ per_page: this.per_page, current_page: this.current_page, callback: this.loadBooks });
     },
     methods: {
+        ...mapActions(['fetchBooks']),
         loadBooks(res) {
             this.books = res.data
         },

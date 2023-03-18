@@ -37,7 +37,9 @@ export default {
     align-items: center;
     justify-content: center;
 }
-
+.form-control:focus, .form-control:hover, .form-control{
+    outline: none !important;
+}
 #searchbox {
     border: 1px solid #999;
     border-radius: 10px;

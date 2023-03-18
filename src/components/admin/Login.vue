@@ -4,7 +4,7 @@
             <h3>Login</h3>
             <!-- <router-link id="search-btn" class="btn my-2 my-sm-0" to="/list-book">Go to List</router-link> -->
         </div>
-        <form @submit.prevent="login">
+        <form @submit.prevent="doLogin">
             <div class="form-group">
                 <label>Email:</label>
                 <input v-model="user.email" type="email" class="form-control" placeholder="Enter Email">
@@ -26,10 +26,12 @@
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
 export default {
     methods: {
-        login() {
-            this.$store.dispatch("login", { user: this.user, callback: this.onLogin });
+        ...mapActions(['login']),
+        doLogin() {
+            this.login({ user: this.user, callback: this.onLogin });
         },
         onLogin() {
             this.$router.push({name: 'home'})
