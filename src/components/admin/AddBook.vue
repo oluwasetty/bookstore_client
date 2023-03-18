@@ -7,27 +7,27 @@
         <form @submit.prevent="saveBook">
             <div class="form-group">
                 <label>Title:</label>
-                <input v-model="book.title" type="text" class="form-control" placeholder="Enter Title">
+                <input required v-model="book.title" type="text" class="form-control" placeholder="Enter Title">
             </div>
             <div class="form-group">
                 <label>Author:</label>
-                <input v-model="book.author" type="text" class="form-control" placeholder="Enter Author">
+                <input required v-model="book.author" type="text" class="form-control" placeholder="Enter Author">
             </div>
             <div class="form-group">
                 <label>Genre:</label>
-                <input v-model="book.genre" type="text" class="form-control" placeholder="Enter Genre">
+                <input required v-model="book.genre" type="text" class="form-control" placeholder="Enter Genre">
             </div>
             <div class="form-group">
                 <label>ISBN:</label>
-                <input v-model="book.isbn" type="text" class="form-control" placeholder="Enter ISBN">
+                <input required v-model="book.isbn" type="text" class="form-control" placeholder="Enter ISBN">
             </div>
             <div class="form-group">
                 <label>Publisher:</label>
-                <input v-model="book.publisher" type="text" class="form-control" placeholder="Enter Publisher">
+                <input required v-model="book.publisher" type="text" class="form-control" placeholder="Enter Publisher">
             </div>
             <div class="form-group">
                 <label>Published Date:</label>
-                <input v-model="book.published" type="date" class="form-control" placeholder="Enter Published Date">
+                <input required v-model="book.published" type="date" class="form-control" placeholder="Enter Published Date">
             </div>
             <div class="form-group">
                 <label>Description:</label>

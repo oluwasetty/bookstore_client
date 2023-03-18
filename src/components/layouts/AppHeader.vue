@@ -21,7 +21,7 @@
         </li>
       </ul>
       <router-link id="search-btn" class="btn my-2 my-sm-0" to="/search">Search</router-link>
-      <a v-if="isLoggedIn" id="search-btn" class="btn my-2 my-sm-0" @click="logout()" to="/login">Logout</a>
+      <a v-if="isLoggedIn" id="search-btn" class="btn my-2 my-sm-0" @click.prevent="doLogout" href="!#">Logout</a>
       <router-link v-else id="search-btn" class="btn my-2 my-sm-0" to="/login">Login</router-link>
     </div>
   </nav>
@@ -34,7 +34,13 @@ export default {
     ...mapGetters(['isLoggedIn']),
   },
   methods: {
-    ...mapActions(['logout'])
+    ...mapActions(['logout']),
+    doLogout() {
+      this.logout({ callback: this.onLogout });
+    },
+    onLogout() {
+      this.$router.push({ name: 'home' })
+    }
   }
 }
 </script>
@@ -71,4 +77,5 @@ export default {
 #search-btn:hover {
   background-color: #f97141;
   color: #fff;
-}</style>
+}
+</style>

@@ -5,13 +5,13 @@
         <img :src="book.image" alt="Book cover image" class="img-fluid">
       </div>
       <div class="col-md-8">
-        <h2>{{ book.title }}</h2>
+        <h3>{{ book.title }}</h3>
         <h4>{{ book.author }}</h4>
-        <p>Genre: {{ book.genre }}</p>
-        <p>Publisher: {{ book.publisher }}</p>
-        <p>Publication Date: {{ format_date(book.published) }}</p>
-        <p>ISBN: {{ book.isbn }}</p>
-        <p>Description: {{ book.description }} </p>
+        <p>Genre: <span>{{ book.genre }}</span></p>
+        <p>Publisher: <span>{{ book.publisher }}</span></p>
+        <p>Publication Date: <span>{{ format_date(book.published) }}</span></p>
+        <p>ISBN: <span>{{ book.isbn }}</span></p>
+        <p>Description: <span>{{ book.description }}</span> </p>
       </div>
     </div>
   </div>
@@ -59,10 +59,15 @@ h2 {
 
 h4 {
   margin-bottom: 10px;
+  color: #555;
 }
 
 p {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
+  text-align: justify;
+}
+p span{
+  color: #555;
 }
 </style>

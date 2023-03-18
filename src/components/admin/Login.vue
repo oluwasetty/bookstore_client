@@ -7,15 +7,15 @@
         <form @submit.prevent="doLogin">
             <div class="form-group">
                 <label>Email:</label>
-                <input v-model="user.email" type="email" class="form-control" placeholder="Enter Email">
+                <input required v-model="user.email" type="email" class="form-control" placeholder="Enter Email">
             </div>
             <div class="form-group">
                 <label>Password:</label>
-                <input v-model="user.password" type="password" class="form-control" placeholder="Enter Password">
+                <input required v-model="user.password" type="password" class="form-control" placeholder="Enter Password">
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" name="remember">
+                    <input required class="form-check-input required" type="checkbox" name="remember">
                     Remember me
                 </label>
             </div>

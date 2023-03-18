@@ -21,7 +21,7 @@ let actions = {
                 })
         })
     },
-    logout({ commit }) {
+    logout({ commit }, {callback}) {
         return new Promise((resolve, reject) => {
             httpClient.post('/logout')
                 .then(res => {
@@ -30,6 +30,7 @@ let actions = {
                         commit('logout')
                         delete httpClient.defaults.headers.common['Authorization']
                         commit('notification', { "status": "success", "message": res.data.message })
+                        callback()
                     } else {
                         commit('notification', { "status": "error", "message": res.data.message })
                     }
