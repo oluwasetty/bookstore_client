@@ -10,7 +10,7 @@
                     <div v-for="(book, i) in items" :key="i" class="col-xl-3 col-lg-4 col-md-6 mt-4">
                         <div @click="redirectURL(book.id)" class="book read">
                             <div class="cover">
-                                <img :src="book.image">
+                                <img :src="book.image" />
                             </div>
                             <div class="description">
                                 <p class="title">{{ book.title }}<br>
@@ -40,7 +40,7 @@ export default {
         format_date(date) {
             return moment(new Date(date)).format("MMM D, Y")
         },
-        redirectURL(id){
+        redirectURL(id) {
             this.$router.push({ name: 'product', params: { id: id } })
         }
     }
@@ -53,7 +53,7 @@ export default {
     text-align: center;
 }
 
-.choose a{
+.choose a {
     color: #000;
 }
 
@@ -153,7 +153,7 @@ animate it */
     height: 350px;
 }
 
-.book:hover{
+.book:hover {
     cursor: pointer;
 }
 </style>

@@ -1,24 +1,16 @@
-# bookstore
+# Getting started
+This the frontend for the BookStore
 
-## Project setup
-```
-yarn install
-```
+# For implementation using Docker
+N.B Make sure you have docker running on your system
+1) Run git clone `link to repository` 
+3) Run docker compose up -d
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+# For implementation on local machine
+N.B Make sure you have an instance Elastic search client running on your system
+1) Run git clone `link to repository` 
+2) Run yarn install
+3) Run yarn serve or yarn build to build for production
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# Notes
+3) Go to http://localhost:7000 to view the app if implemented on docker.

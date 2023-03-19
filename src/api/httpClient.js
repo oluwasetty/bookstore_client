@@ -1,6 +1,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress'
 import store from './../store/index'
+import router from "./../router"
 
 /** Default config for axios instance */
 let config = {
@@ -44,10 +45,29 @@ httpClient.interceptors.response.use(
         NProgress.done()
         return response;
     },
-    error => {
+    async (err) => {
         /** TODO: Do something with response error */
         NProgress.done()
-        return Promise.reject(error);
+        const originalConfig = err.config;
+
+        if (originalConfig.url !== "/login" && err.response) {
+    //         // Access Token was expired
+            if (err.response.status === 401) {
+                store.dispatch('logout', { callback: () => { router.push({ name: 'login' })}});
+                // if (err.response.status === 401 && !originalConfig._retry) {
+    //             store.commit('notification', { "status": "error", "message": "Token expired, refreshing..." })
+    //             originalConfig._retry = true;
+
+    //             try {
+    //                 await store.dispatch('refreshToken');
+
+    //                 return httpClient(originalConfig);
+    //             } catch (_error) {
+    //                 return Promise.reject(_error);
+    //             }
+            }
+        }
+        return Promise.reject(err);
     }
 );
 export default httpClient;

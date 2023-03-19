@@ -1,7 +1,25 @@
 import httpClient from './../api/httpClient'
 
 let actions = {
-    login({ commit, dispatch }, {user, callback }) {
+    refreshToken({ commit, dispatch }) {
+        return new Promise((resolve, reject) => {
+            httpClient.post('refresh')
+                .then(res => {
+                    resolve(res)
+                    if (res.data.status) {
+                        const token = res.data.data.authorisation.token
+                        commit('token', { token })
+                        commit('notification', { "status": "success", "message": res.data.message })
+                    } else {
+                        commit('notification', { "status": "error", "message": res.data.message })
+                    }
+                }).catch(err => {
+                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
+                    reject(err)
+                })
+        })
+    },
+    login({ commit }, { user, callback }) {
         return new Promise((resolve, reject) => {
             httpClient.post('login', user)
                 .then(res => {
@@ -21,24 +39,26 @@ let actions = {
                 })
         })
     },
-    logout({ commit }, {callback}) {
-        return new Promise((resolve, reject) => {
-            httpClient.post('/logout')
-                .then(res => {
-                    resolve(res)
-                    if (res.data.status) {
-                        commit('logout')
-                        delete httpClient.defaults.headers.common['Authorization']
-                        commit('notification', { "status": "success", "message": res.data.message })
-                        callback()
-                    } else {
-                        commit('notification', { "status": "error", "message": res.data.message })
-                    }
-                }).catch(err => {
-                    commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
-                    reject(err)
-                })
-        })
+    logout({ commit }, { callback }) {
+        commit('logout')
+        delete httpClient.defaults.headers.common['Authorization']
+        commit('notification', { "status": "success", "message": "Logout Successful" })
+        callback()
+        // return new Promise((resolve, reject) => {
+        //     httpClient.post('/logout')
+        //         .then(res => {
+        //             resolve(res)
+        //             if (res.data.status) {
+        //                 commit('notification', { "status": "success", "message": res.data.message })
+        //                 callback()
+        //             } else {
+        //                 commit('notification', { "status": "error", "message": res.data.message })
+        //             }
+        //         }).catch(err => {
+        //             commit('notification', { "status": "error", "message": err ?? err.response.data.message ?? err.message ?? "An error occurred" })
+        //             reject(err)
+        //         })
+        // })
     },
     createBook({ commit }, { book, callback }) {
         return new Promise((resolve, reject) => {
